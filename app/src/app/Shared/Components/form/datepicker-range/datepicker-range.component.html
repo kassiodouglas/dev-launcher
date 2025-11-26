@@ -1,0 +1,24 @@
+<mat-form-field appearance="fill" [class.opacity-40]="isDisabled" [class.cursor-not-allowed]="isDisabled" class="!w-full !min-h-[57px] placeholder:opacity-10 bg-white border-zinc-200 dark:bg-zinc-900 rounded-md border dark:border-zinc-800  focus:border-blue-600">
+  <mat-label>{{ label }}</mat-label>
+
+  <mat-date-range-input [rangePicker]="picker" [disabled]="isDisabled">
+    <input
+      matStartDate
+      [placeholder]="placeholderStart"
+      [value]="value.start"
+      (dateChange)="onStartDateChange($event)"
+    />
+    <input
+      matEndDate
+      [placeholder]="placeholderEnd"
+      [value]="value.end"
+      (dateChange)="onEndDateChange($event)"
+    />
+  </mat-date-range-input>
+
+  <mat-datepicker-toggle matSuffix [for]="picker">
+    <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+  </mat-datepicker-toggle>
+
+  <mat-date-range-picker #picker></mat-date-range-picker>
+</mat-form-field>

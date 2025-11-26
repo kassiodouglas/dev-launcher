@@ -1,0 +1,20 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'layout-{{ kebab }}',
+  imports: [CommonModule, RouterOutlet],
+  template: `
+
+  <div class="w-screen">
+    Layout
+    <main class="flex-1 min-h-screen p-4 bg-gray-50">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  `,
+})
+export class {{ name }}Layout {
+}

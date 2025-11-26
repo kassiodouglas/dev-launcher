@@ -1,0 +1,35 @@
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '@src/environments/environment';
+import { NotifyService } from '@src/app/shared/services/notiflix/notify.service';
+import { iApiResponse } from '@src/app/core/interfaces/iApiResponse';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class {{ name }}Api {
+
+  private http = inject(HttpClient);
+  private readonly baseUrl = environment.urlApi + '/{{ kebab }}';
+
+  getAll(): Observable<iApiResponse> {
+    return this.http.get<iApiResponse>(`${this.baseUrl}`);
+  }
+
+  getById(id: string): Observable<iApiResponse> {
+    return this.http.get<iApiResponse>(`${this.baseUrl}/${id}`);
+  }
+
+  create(request: any): Observable<iApiResponse> {
+    return this.http.post<iApiResponse>(this.baseUrl, request);
+  }
+
+  update(id: string, request: any): Observable<iApiResponse> {
+    return this.http.put<iApiResponse>(`${this.baseUrl}/${id}`, request);
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+}

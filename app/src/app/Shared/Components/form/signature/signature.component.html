@@ -1,0 +1,36 @@
+<div class="flex flex-col gap-2">
+
+  <div
+    class="flex items-center justify-between p-3 bg-white border rounded-md dark:hover:bg-zinc-800 border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800"
+    [class.opacity-40]="disabled"
+  >
+    <div class="flex-1">
+      <label class="font-medium text-gray-700 dark:text-gray-300">{{ label }}</label>
+      <br>
+
+      <ng-container *ngIf="value; else noSignature">
+        <img [src]="value" alt="Assinatura" class="object-contain bg-white rounded-md max-h-16" />
+      </ng-container>
+
+      <ng-template #noSignature>
+        <span class="text-sm text-gray-400">Nenhuma assinatura</span>
+      </ng-template>
+    </div>
+
+    <div class="flex gap-2 ml-3">
+      <button mat-stroked-button color="primary" (click)="openSignatureModal()" [disabled]="disabled">
+        {{ value ? 'Alterar' : 'Assinar' }}
+      </button>
+
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="clearSignature()"
+        [disabled]="!value || disabled"
+        matTooltip="Remover assinatura"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

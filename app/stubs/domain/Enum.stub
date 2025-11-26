@@ -1,0 +1,6 @@
+export enum e{{ name }} {
+  // Defina os valores do enum aqui
+  // Exemplo:
+  // OptionOne = 'OptionOne',
+  // OptionTwo = 'OptionTwo',
+}

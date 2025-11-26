@@ -1,0 +1,31 @@
+import { Injectable, inject } from '@angular/core';
+import { {{ name }}Api } from '../Apis/{{ kebab }}.api';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class {{ name }}Service {
+
+  private api = inject({{ name }}Api);
+
+  fetchAll(): Observable<any[]> {
+    return this.api.getAll();
+  }
+
+  findOne(id: string): Observable<any> {
+    return this.api.getById(id);
+  }
+
+  save(data: any): Observable<any> {
+    return this.api.create(data);
+  }
+
+  modify(id: string, data: any): Observable<any> {
+    return this.api.update(id, data);
+  }
+
+  remove(id: string): Observable<void> {
+    return this.api.delete(id);
+  }
+}

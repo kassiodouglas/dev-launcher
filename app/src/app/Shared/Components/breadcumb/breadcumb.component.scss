@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  font-size: 0.875rem;
+}
+
+a {
+  text-decoration: none;
+  color: #3b82f6; // Azul Tailwind
+}
+
+a:hover {
+  text-decoration: underline;
+}

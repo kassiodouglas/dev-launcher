@@ -1,0 +1,17 @@
+<div class="p-4 bg-white border rounded-lg shadow-sm dark:border-zinc-700 card dark:bg-gray-800" [ngClass]="className">
+  <!-- Cabeçalho -->
+  <div *ngIf="title || subtitle" class="mb-3">
+    <div *ngIf="title" class="text-lg font-semibold text-gray-900 dark:text-white">{{ title }}</div>
+    <p *ngIf="subtitle" class="text-sm text-gray-500 dark:text-gray-300">{{ subtitle }}</p>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="mb-3 card-content">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- Rodapé -->
+  <div *ngIf="footer" class="pt-2 text-sm text-gray-400 border-t dark:border-zinc-700 dark:text-gray-500">
+    {{ footer }}
+  </div>
+</div>

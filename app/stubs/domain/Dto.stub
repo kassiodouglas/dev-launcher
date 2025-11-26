@@ -1,0 +1,10 @@
+export class {{ name }}DTO {
+  // Adicione os campos esperados no DTO
+  // Exemplo:
+  // id: number;
+  // name: string;
+
+  constructor(partial: Partial<{{ name }}DTO>) {
+    Object.assign(this, partial);
+  }
+}

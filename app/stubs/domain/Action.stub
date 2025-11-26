@@ -1,0 +1,23 @@
+import { inject, Injectable } from '@angular/core';
+import { Observable, map, catchError, throwError } from 'rxjs';
+import { NotifyService } from '@src/app/shared/services/notiflix/notify.service';
+import { iApiResponse } from '@src/app/core/interfaces/iApiResponse';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class {{ name }}Action {
+
+  private service = inject(Service);
+  private notifyService = inject(NotifyService);
+
+  execute(): Observable<iApiResponse> {
+    return this.service.method().pipe(
+      map(response => response),
+      catchError(err => {
+      this.notifyService.error(err.error?.error?.message ?? err.message)
+        return throwError(() => err);
+      }),
+    );
+  }
+}

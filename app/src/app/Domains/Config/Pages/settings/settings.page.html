@@ -1,0 +1,69 @@
+<div class="min-h-screen p-8 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Configurações Pessoais</h1>
+
+    <div class="space-y-6">
+      <!-- Theme Toggle -->
+      <div class="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Aparência</h2>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-700 dark:text-slate-300 mb-1">Tema</p>
+            <p class="text-sm text-gray-500 dark:text-slate-400">Escolha entre tema claro ou escuro</p>
+          </div>
+          <button (click)="toggleTheme()" 
+                  class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition-colors shadow-lg">
+            {{ currentTheme === 'dark' ? '🌙 Escuro' : '☀️ Claro' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- GitHub Settings -->
+      <div class="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">GitHub</h2>
+        <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()" class="space-y-4">
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Token do GitHub</label>
+            <input type="password" formControlName="githubToken" 
+                   placeholder="ghp_xxxxxxxxxxxx"
+                   class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">Usado para buscar branches e informações dos repositórios</p>
+          </div>
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Username do GitHub</label>
+            <input type="text" formControlName="githubUsername" 
+                   placeholder="seu-usuario"
+                   class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </form>
+      </div>
+
+      <!-- Git Settings -->
+      <div class="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Git</h2>
+        <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()" class="space-y-4">
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Nome</label>
+            <input type="text" formControlName="gitName" 
+                   placeholder="Seu Nome"
+                   class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Email</label>
+            <input type="email" formControlName="gitEmail" 
+                   placeholder="seu@email.com"
+                   class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </form>
+      </div>
+
+      <div class="flex justify-end">
+        <button (click)="saveSettings()" 
+                class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition-colors">
+          Salvar Configurações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

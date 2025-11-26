@@ -1,0 +1,21 @@
+<div class="flex flex-col w-full h-full p-6 bg-white shadow-lg dark:bg-dark">
+
+  <div class="flex items-center justify-between pb-3 mb-4 border-b">
+
+    <h2 class="text-lg font-semibold">{{ name }}l</h2>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="flex-1 overflow-y-auto">
+
+    <p class="text-gray-700 dark:text-gray-300">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at blandit odio, sed pellentesque tortor. Ut vitae fringilla diam,
+      sit amet dignissim est. Etiam nec risus et mauris vestibulum posuere. Maecenas fermentum ex nec purus euismod, nec vehicula purus gravida.
+      Fusce at pretium nisi.
+    </p>
+
+
+  </div>
+</div>

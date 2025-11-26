@@ -1,0 +1,127 @@
+<div class="flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <div
+    class="fixed inset-y-0 left-0 z-40 flex flex-col transition-all duration-300 transform border-r border-gray-200 shadow-2xl bg-gradient-to-b from-white to-gray-50 dark:from-slate-900 dark:to-slate-950 dark:border-slate-800/50 sidebar md:static md:translate-x-0 backdrop-blur-sm"
+    [ngClass]="{
+    '-translate-x-full': !sidebarOpen && isMobile,
+    'w-72': sidebarOpen || isMobile,
+    'w-16': !sidebarOpen && !isMobile
+  }">
+
+    <!-- TOPO DA SIDEBAR -->
+    <div class="flex flex-col items-center transition-all border-b border-gray-200 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/30 backdrop-blur-sm" [ngClass]="{
+      'p-6': sidebarOpen || isMobile,
+      'p-3': !sidebarOpen && !isMobile
+    }">
+      <!-- Avatar com gradiente moderno -->
+      <div class="relative">
+        <div class="absolute inset-0 rounded-full opacity-75 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 blur-sm"></div>
+        <img src="https://i.pravatar.cc/300" alt="Avatar"
+          class="relative object-cover transition-all duration-300 border-2 border-gray-300 rounded-full dark:border-slate-700" [ngClass]="{
+          'w-20 h-20': sidebarOpen || isMobile,
+          'w-10 h-10': !sidebarOpen && !isMobile
+        }" />
+      </div>
+
+      <!-- Nome do usuário -->
+      <div class="mt-4 text-center transition-all duration-300" [class.hidden]="!sidebarOpen && !isMobile"
+        [class.pointer-events-none]="!sidebarOpen && !isMobile">
+        <p class="text-base font-bold text-transparent text-gray-900 dark:text-white bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text">
+          Kássio Douglas
+        </p>
+        <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">
+          Desenvolvedor
+        </p>
+      </div>
+
+      <!-- Iniciais (somente sidebar recolhida) -->
+      <div
+        class="flex items-center justify-center w-10 h-10 mt-4 text-sm font-bold text-white transition-all duration-300 border rounded-full shadow-lg bg-gradient-to-br from-indigo-500 to-purple-600 border-indigo-400/30"
+        [class.hidden]="sidebarOpen || isMobile">
+        KD
+      </div>
+    </div>
+
+    <!-- Menu Items -->
+    <div class="flex-1 px-3 py-4 overflow-y-auto">
+      <ul class="space-y-2">
+        <li>
+          <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 border-indigo-300 dark:border-indigo-500/30"
+            class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 border border-transparent cursor-pointer dark:text-slate-300 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span class="ml-3 text-sm font-medium transition-opacity duration-200 whitespace-nowrap"
+              [class.hidden]="!sidebarOpen && !isMobile" [class.pointer-events-none]="!sidebarOpen && !isMobile">
+              Dashboard
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/projects" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 border-indigo-300 dark:border-indigo-500/30"
+            class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 border border-transparent cursor-pointer dark:text-slate-300 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <span class="ml-3 text-sm font-medium transition-opacity duration-200 whitespace-nowrap"
+              [class.hidden]="!sidebarOpen && !isMobile" [class.pointer-events-none]="!sidebarOpen && !isMobile">
+              Projetos
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/config" routerLinkActive="bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 border-indigo-300 dark:border-indigo-500/30"
+            class="flex items-center px-4 py-3 text-gray-700 transition-all duration-200 border border-transparent cursor-pointer dark:text-slate-300 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="ml-3 text-sm font-medium transition-opacity duration-200 whitespace-nowrap"
+              [class.hidden]="!sidebarOpen && !isMobile" [class.pointer-events-none]="!sidebarOpen && !isMobile">
+              Configurações
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- BACKDROP MOBILE -->
+  <div class="fixed inset-0 z-30 bg-black/40 md:hidden" *ngIf="sidebarOpen && isMobile" (click)="toggleSidebar()">
+  </div>
+
+  <!-- COLUNA CENTRAL (conteúdo principal) -->
+  <main class="relative flex-1 overflow-y-auto transition-all duration-300 bg-gray-50 dark:bg-slate-950">
+
+    <!-- BOTÃO DESKTOP (abrir/fechar sidebar) -->
+    <button
+      class="absolute z-50 hidden p-2 text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-slate-800 dark:border-slate-700 md:flex top-4 left-4 hover:bg-gray-100 dark:hover:bg-slate-700 dark:text-gray-300"
+      (click)="toggleSidebarDesktop()">
+
+      <!-- Ícone -->
+      <span *ngIf="sidebarOpen">⮜</span>
+      <span *ngIf="!sidebarOpen">⮞</span>
+    </button>
+
+    <!-- BOTÃO MOBILE -->
+    <button class="p-2 pb-1 m-4 text-white transition-colors bg-indigo-600 rounded shadow-lg hover:bg-indigo-700 md:hidden" (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <!-- Conteúdo principal -->
+    <div class="">
+      <router-outlet></router-outlet>
+    </div>
+
+  </main>
+
+  <!-- COLUNA DIREITA -->
+  <aside class="hidden w-64 p-4 bg-white border-l border-gray-200 dark:border-slate-800 lg:block dark:bg-slate-950">
+    <!-- ainda vazio -->
+  </aside>
+</div>

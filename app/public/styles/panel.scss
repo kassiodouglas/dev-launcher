@@ -1,0 +1,84 @@
+/* Painel lateral — estrutura base */
+.panel .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  height: 100vh;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.panel .mat-mdc-dialog-container {
+  display: flex;
+  align-items: stretch;
+}
+
+.panel-backdrop {
+  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(3px);
+}
+
+/* Painel interno — animação de entrada padrão (direita) */
+.panel .mat-mdc-dialog-surface > * {
+  height: 100vh;
+  animation: slideInRight 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Se quiser alternar para esquerda */
+.panel-left .mat-mdc-dialog-surface > * {
+  animation: slideInLeft 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Animação reversa (quando fecha) */
+.panel.closing .mat-mdc-dialog-surface > * {
+  animation: slideOutRight 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+}
+.panel-left.closing .mat-mdc-dialog-surface > * {
+  animation: slideOutLeft 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+}
+
+/* Keyframes */
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}

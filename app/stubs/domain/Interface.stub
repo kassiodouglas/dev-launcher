@@ -1,0 +1,6 @@
+export interface i{{ name }} {
+  // Defina as propriedades da interface aqui
+  // Exemplo:
+  // id: number;
+  // name: string;
+}

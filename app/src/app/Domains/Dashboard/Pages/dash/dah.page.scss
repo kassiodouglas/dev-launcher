@@ -1,0 +1,28 @@
+/* Custom Scrollbar para Webkit (Chrome/Electron) */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #0f172a; /* slate-950 */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #334155; /* slate-700 */
+  border-radius: 4px;
+  border: 2px solid #0f172a; /* match track color */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #475569; /* slate-600 */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}

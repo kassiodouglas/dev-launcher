@@ -1,0 +1,29 @@
+import { Component, Inject, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ButtonComponent } from "@src/app/Shared/Components/buttons/button.component";
+
+@Component({
+  selector: 'modal-{{ kebab }}',
+  imports: [
+    CommonModule,
+    ButtonComponent
+  ],
+  templateUrl: './{{ kebab }}.modal.html',
+})
+export class {{ name }}Modal {
+
+ constructor(
+    private modal: MatDialogRef<{{ name }}Modal>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  onCancel() {
+    this.modal.close(false);
+  }
+
+  onConfirm() {
+    this.modal.close(true);
+  }
+
+}

@@ -1,0 +1,8 @@
+releases/*
+app/node_modules/*
+app/dist/*
+electron/dist/*
+electron/node_modules/*
+electron/resources/app/*
+.vscode/*
+*.txt

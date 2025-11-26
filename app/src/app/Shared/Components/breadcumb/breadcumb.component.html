@@ -1,0 +1,22 @@
+<nav class="flex items-center p-1 text-sm italic text-gray-300 rounded-md hover:bg-zinc-400/5 dark:hover:bg-zinc-500/5 dark:text-gray-500 text-inherit" aria-label="breadcrumb">
+  <ng-container *ngFor="let item of items; let last = last">
+
+    <!-- Se tiver link -->
+    <ng-container *ngIf="item.link; else textOnly">
+      <a
+        [routerLink]="item.link"
+        class="text-blue-600 dark:text-cyan-700 hover:underline"
+      >
+        {{ item.label }}
+      </a>
+    </ng-container>
+
+    <!-- Se não tiver link -->
+    <ng-template #textOnly>
+      <span class="font-medium text-gray-400 dark:text-gray-500">{{ item.label }}</span>
+    </ng-template>
+
+    <!-- Separador -->
+    <span *ngIf="!last" class="mx-2 text-gray-400 dark:text-gray-500">›</span>
+  </ng-container>
+</nav>

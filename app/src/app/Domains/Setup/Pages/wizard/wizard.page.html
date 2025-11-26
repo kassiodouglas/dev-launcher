@@ -1,0 +1,199 @@
+<div class="min-h-screen p-8 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <div class="max-w-4xl mx-auto">
+    
+    <!-- Header -->
+    <div class="mb-8 text-center">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">Bem-vindo ao Launcher</h1>
+      <p class="text-gray-600 dark:text-slate-400">Vamos configurar seu primeiro projeto</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-medium text-gray-700 dark:text-slate-300">Etapa {{ currentStep }} de {{ totalSteps }}</span>
+        <span class="text-sm text-gray-500 dark:text-slate-400">{{ getProgressPercentage() }}%</span>
+      </div>
+      <div class="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300" 
+             [style.width.%]="(currentStep / totalSteps) * 100"></div>
+      </div>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="flex justify-between mb-8">
+      <div *ngFor="let step of [1,2,3,4]" 
+           class="flex flex-col items-center flex-1"
+           [class.opacity-50]="step > currentStep">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all"
+             [class.bg-indigo-600]="step === currentStep"
+             [class.bg-indigo-500]="step < currentStep"
+             [class.bg-gray-200]="step > currentStep"
+             [class.dark:bg-slate-700]="step < currentStep"
+             [class.dark:bg-slate-800]="step > currentStep"
+             [class.text-white]="step <= currentStep"
+             [class.text-gray-500]="step > currentStep"
+             [class.dark:text-slate-500]="step > currentStep">
+          <span *ngIf="step < currentStep">✓</span>
+          <span *ngIf="step >= currentStep">{{ step }}</span>
+        </div>
+        <span class="text-xs text-gray-500 dark:text-slate-400 text-center">{{ getStepTitleByNumber(step) }}</span>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-8 border border-gray-200 dark:border-slate-700">
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">{{ getStepTitle() }}</h2>
+        <p class="text-gray-600 dark:text-slate-400">{{ getStepDescription() }}</p>
+      </div>
+
+      <form [formGroup]="wizardForm" (ngSubmit)="submit()">
+        
+        <!-- Step 1: Informações Básicas -->
+        <div *ngIf="currentStep === 1" class="space-y-6">
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Nome do Projeto *</label>
+            <input type="text" 
+                   formControlName="name"
+                   class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                   placeholder="Ex: Meu Projeto">
+            <div *ngIf="wizardForm.get('name')?.invalid && wizardForm.get('name')?.touched" 
+                 class="mt-1 text-sm text-rose-500">
+              Nome do projeto é obrigatório
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Caminho da Pasta Local *</label>
+            <div class="flex gap-2">
+              <input type="text" 
+                     formControlName="path"
+                     class="flex-1 px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                     placeholder="C:\caminho\do\projeto">
+              <button type="button" 
+                      (click)="selectFolder()"
+                      class="px-4 py-3 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-white rounded-lg border border-gray-300 dark:border-slate-600 transition-colors">
+                📁
+              </button>
+            </div>
+            <div *ngIf="wizardForm.get('path')?.invalid && wizardForm.get('path')?.touched" 
+                 class="mt-1 text-sm text-rose-500">
+              Caminho da pasta é obrigatório
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Configurações de Servidor -->
+        <div *ngIf="currentStep === 2" class="space-y-6">
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Porta de Execução *</label>
+            <input type="number" 
+                   formControlName="port"
+                   class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                   placeholder="Ex: 3000, 8000, 4200">
+            <div *ngIf="wizardForm.get('port')?.invalid && wizardForm.get('port')?.touched" 
+                 class="mt-1 text-sm text-rose-500">
+              Porta válida é obrigatória
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">URL Base *</label>
+            <input type="text" 
+                   formControlName="baseUrl"
+                   class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                   placeholder="Ex: http://localhost:3000">
+            <div *ngIf="wizardForm.get('baseUrl')?.invalid && wizardForm.get('baseUrl')?.touched" 
+                 class="mt-1 text-sm text-rose-500">
+              URL base é obrigatória
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Comandos -->
+        <div *ngIf="currentStep === 3" class="space-y-4">
+          <div class="flex items-center justify-between mb-4">
+            <label class="text-sm font-medium text-gray-700 dark:text-slate-300">Comandos de Execução *</label>
+            <button type="button" 
+                    (click)="addCommand()"
+                    class="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-colors">
+              + Adicionar Comando
+            </button>
+          </div>
+
+          <div *ngFor="let command of commandsFormArray.controls; let i = index" 
+               class="p-4 bg-gray-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-slate-600">
+            <div class="flex items-start gap-4">
+              <div class="flex-1 space-y-4">
+                <div>
+                  <label class="block mb-2 text-xs font-medium text-gray-600 dark:text-slate-400">Diretório de Trabalho (opcional)</label>
+                  <input type="text" 
+                         [formControl]="getCommandControl(i, 'cwd')"
+                         class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                         placeholder="Deixe vazio para usar o caminho do projeto">
+                </div>
+                <div>
+                  <label class="block mb-2 text-xs font-medium text-gray-600 dark:text-slate-400">Comando *</label>
+                  <input type="text" 
+                         [formControl]="getCommandControl(i, 'command')"
+                         class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                         placeholder="Ex: npm start, php artisan serve">
+                  <div *ngIf="getCommandControl(i, 'command').invalid && getCommandControl(i, 'command').touched" 
+                       class="mt-1 text-xs text-rose-500">
+                    Comando é obrigatório
+                  </div>
+                </div>
+              </div>
+              <button type="button" 
+                      (click)="removeCommand(i)"
+                      *ngIf="commandsFormArray.length > 1"
+                      class="p-2 text-rose-500 hover:bg-rose-500/10 rounded transition-colors">
+                🗑️
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Branch -->
+        <div *ngIf="currentStep === 4" class="space-y-6">
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Nome da Branch Atual *</label>
+            <input type="text" 
+                   formControlName="currentBranch"
+                   class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                   placeholder="Ex: main, develop, master">
+            <div *ngIf="wizardForm.get('currentBranch')?.invalid && wizardForm.get('currentBranch')?.touched" 
+                 class="mt-1 text-sm text-rose-500">
+              Nome da branch é obrigatório
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mt-8 pt-6 border-t border-gray-200 dark:border-slate-700">
+          <button type="button" 
+                  (click)="previousStep()"
+                  *ngIf="currentStep > 1"
+                  class="px-6 py-3 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-white rounded-lg transition-colors">
+            ← Anterior
+          </button>
+          <div *ngIf="currentStep === 1" class="flex-1"></div>
+          
+          <button type="button" 
+                  (click)="nextStep()"
+                  *ngIf="currentStep < totalSteps"
+                  class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-colors ml-auto">
+            Próximo →
+          </button>
+          
+          <button type="submit" 
+                  *ngIf="currentStep === totalSteps"
+                  class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-colors ml-auto">
+            Finalizar ✓
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

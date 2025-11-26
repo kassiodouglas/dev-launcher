@@ -1,0 +1,174 @@
+<main class="flex flex-col items-center justify-between w-full p-2 bg-white shadow-sm md:flex-row rounded-2xl filter-loading-progress">
+
+
+    <div class="relative flex flex-row items-center justify-center py-1">
+
+      <!-- ações -->
+      <button mat-button [matMenuTriggerFor]="exportMenu" [disabled]="actionsButtons.length==0"
+        class="disabled:cursor-not-allowed disabled:opacity-80 h-[40px] flex items-center text-white bg-slate-600 hover:bg-blue-700 rounded-s-2xl rounded-0 btn btn-sm">
+        <mat-icon class="ml-1">arrow_drop_down</mat-icon>
+        Ações
+      </button>
+      <mat-menu #exportMenu="matMenu" class="bg-white rounded-md">
+        @for(action of actionsButtons; track action){
+        <button (click)="executeAction(action)" [disabled]="action.disabled ?? false"
+          class="flex items-center w-full p-2 px-3 text-sm transition-all hover:bg-slate-400 disabled:opacity-35">
+          {{action.label}}
+        </button>
+        }
+
+      </mat-menu>
+
+      <!-- atualizar dados -->
+      <button
+        class="h-[40px] flex items-center justify-center rounded-0  btn btn-sm bg-slate-600 hover:bg-blue-700 text-white flex-row"
+        (click)="loadReport()" title="Atualizar dados (CTRL + F5)">
+        <mat-icon class="">sync</mat-icon>
+      </button>
+
+      <!-- filtros panel / dropdown-->
+      <div class="relative">
+        @if(!items){
+        <button (click)="emitOpenFilters()" title="Abrir janela de filtros"
+          class="relative  h-[40px] z-0 flex items-center justify-center p-2 px-4 text-white shadow bg-slate-600 rounded-0 hover:shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
+          <mat-icon>filter_alt</mat-icon>
+        </button>
+
+        <!-- dropdown -->
+        }@else{
+        <button title="Opções de filtros" mat-button [matMenuTriggerFor]="mainMenu"
+          class="relative z-0 flex items-center justify-center  h-[40px] p-2 px-4 text-white shadow bg-slate-600 rounded-0 hover:shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
+          <mat-icon class="ml-1">arrow_drop_down</mat-icon>
+          <mat-icon>filter_alt</mat-icon>
+        </button>
+
+        <mat-menu #mainMenu="matMenu" class="bg-white rounded-md">
+          <ng-container *ngFor="let item of items">
+
+            <!-- Item com submenu -->
+            <ng-container *ngIf="item.children; else simpleItem">
+              <button mat-menu-item [matMenuTriggerFor]="childMenu" class="bg-white hover:bg-slate-500">
+                <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+                {{ item.label }}
+              </button>
+
+              <mat-menu #childMenu="matMenu" class="bg-white ">
+                <button *ngFor="let sub of item.children" class="bg-white hover:bg-slate-500" mat-menu-item
+                  (click)="sub.action?.(sub)">
+                  <mat-icon *ngIf="sub.icon">{{ sub.icon }}</mat-icon>
+                  @if(sub?.checked){<mat-icon>checked</mat-icon>}{{ sub.label }}
+                </button>
+              </mat-menu>
+            </ng-container>
+
+            <!-- Item simples -->
+            <ng-template #simpleItem>
+              <button mat-menu-item (click)="item.action?.(item)" class="bg-white hover:bg-slate-500">
+                <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+                {{ item.label }}
+              </button>
+            </ng-template>
+
+          </ng-container>
+        </mat-menu>
+        }
+
+        <!-- badge quantidade -->
+        <span *ngIf="appliedFiltersLength > 0"
+          class="absolute top-0 right-0 z-10 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full">
+          {{ appliedFiltersLength }}
+        </span>
+      </div>
+
+      <!-- toggle pesquisa-->
+      <button (click)="toggleSearchMode()"
+        [title]="isSearchMode ? 'Esconder campo de pesquisa (CTRL + F)' : 'Exibir campo de pesquisa (CTRL + F)'"
+        class="z-0 flex items-center justify-center  h-[40px] p-2 px-4 text-white shadow bg-slate-600 rounded-r-2xl hover:shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400">
+        <mat-icon *ngIf="!isSearchMode">search</mat-icon>
+        <mat-icon *ngIf="isSearchMode">close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Conteúdo: Filtros ou Input de Pesquisa -->
+    <div class="flex flex-row justify-between w-full mx-2 overflow-x-auto md:overflow-x-hidden">
+      <div *ngIf="!isSearchMode" class="flex flex-wrap gap-2 my-1" [ngClass]="{'my-0': false}">
+
+        <div class="flex flex-row gap-2">
+          @for(cond of filterToolbarService.conditions; track cond){
+
+          <div (click)="removeCondition(cond)" [title]="cond.label +' '+cond.operator +' '+ cond.value"
+            [ngClass]="{'bg-green-400 text-white':cond.operator == 'searchTerm'}"
+            class="flex flex-row truncate ... items-center justify-between px-3 py-1 text-xs text-blue-700 bg-blue-100 rounded-md cursor-pointer hover:text-white hover:bg-red-500">
+            <div>
+              <div class="text-xs">{{cond.label}}
+                <span class="font-bold text-2xs">
+                  @if(cond.operator !== 'searchTerm'){
+                  {{cond.operator | lowercase}}
+                  }@else{
+                  por
+                  }</span>
+              </div>
+              <div class="text-xs font-bold">{{cond.value}}</div>
+            </div>
+            <mat-icon class="mx-2 ">close</mat-icon>
+          </div>
+          }
+
+          <!-- @if(searchTerm){
+            <span [title]="'Pesquisa: ' + searchTerm" (click)="clearSearch()"
+              class="flex items-center px-3 py-1 text-sm text-green-700 bg-green-100 rounded-full cursor-pointer hover:text-white hover:bg-red-500">
+              Pesquisa: <div class="mx-1 font-bold">{{ searchTerm }}</div>
+              <button class="ml-2">✕</button>
+            </span>
+            } -->
+        </div>
+
+        <!-- Filtros aplicados -->
+        <!-- @for (filter of acceptedFilters; track filter) {
+            @if(filter.value){
+            <span class="flex items-center px-3 py-1 text-sm text-blue-700 bg-blue-100 rounded-full">
+              {{filter.label}}: <div class="mx-1 font-bold">{{formatFilterValue(filter)}}</div>
+              <button (click)="clearFilter(filter)" class="ml-2 text-blue-500 hover:text-blue-700">✕</button>
+            </span>
+            }
+          } -->
+
+        <!-- @if(predefinedFilter){
+            <span class="flex items-center px-3 py-1 text-sm text-yellow-700 bg-yellow-100 rounded-full">
+              Predefinido: <div class="mx-1 font-bold">{{ predefinedFilter.label }}</div>
+              <button (click)="clearPredefined()" class="ml-2 text-yellow-500 hover:text-yellow-700">✕</button>
+            </span>
+          } -->
+
+        <!-- Termo digitado como "filtro" -->
+
+
+        <!-- Nenhum filtro -->
+        <!-- @if(allFiltersEmpty && !searchTerm && !predefinedFilter){
+          <span class="opacity-60">Nenhum filtro aplicado</span>
+          } -->
+      </div>
+
+      <div *ngIf="isSearchMode" class="flex flex-1 min-w-full">
+        <!-- Input -->
+        <input #searchInput (keyup.enter)="performSearch()" type="text" [(ngModel)]="modelTerm"
+          placeholder="Digite qualquer termo para buscar..."
+          class="flex-1 w-[calc(100vw-1000px)] p-1 border rounded-l-lg focus:outline-none  " />
+
+        <button [disabled]="modelTerm===''" (click)="clearSearch()"
+          class="flex items-center p-2 px-4 text-white bg-gray-600 disabled:opacity-20 hover:bg-gray-700 focus:ring-2 ">
+          <mat-icon>close</mat-icon>
+        </button>
+
+        <!-- Botão no final do input -->
+        <button (click)="performSearch()"
+          class="flex items-center p-2 px-4 text-white bg-blue-600 rounded-r-lg hover:bg-blue-700 focus:ring-2 ">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+
+    </div>
+
+
+
+</main>

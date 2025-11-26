@@ -1,0 +1,22 @@
+<mat-form-field appearance="fill" [class.opacity-40]="isDisabled"
+  class="!w-full !min-h-[57px] bg-white dark:bg-zinc-900 border-zinc-200 rounded-md border dark:border-zinc-800">
+
+  <mat-label>{{ label }}</mat-label>
+
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [placeholder]="placeholder ?? label"
+    [disabled]="isDisabled"
+    [value]="dateModel"
+    (dateChange)="onDateChange($event)"
+    (input)="onInputChange($event)"
+    (blur)="onTouchedEvent()"
+  />
+
+  <mat-datepicker-toggle matSuffix [for]="picker">
+    <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+  </mat-datepicker-toggle>
+
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>

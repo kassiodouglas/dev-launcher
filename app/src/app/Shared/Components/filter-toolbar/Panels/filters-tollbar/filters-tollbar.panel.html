@@ -1,0 +1,188 @@
+<panel (onClosePanel)="closePanel()">
+
+  <!-- HEADER -->
+  <div title class="w-full">
+
+    <h2 class="flex items-center gap-2 text-2xl font-bold text-econo-primary-500">
+      Filtros
+    </h2>
+
+    <p class="mt-1 text-sm text-gray-500">
+      Crie condições para refinar sua busca.
+    </p>
+
+  </div>
+
+
+  <!-- body -->
+  <div content>
+
+    <!-- TOGGLE DE VISÃO -->
+    <div class="flex items-center justify-center w-full gap-0 my-1">
+      <button type="button" class="flex-1 px-3 py-2 text-sm font-medium transition border rounded-s-md" [ngClass]="{
+            'bg-blue-600 text-white border-blue-700': viewMode === 'condicional',
+            'bg-white text-gray-700 border-gray-300 hover:bg-gray-100': viewMode !== 'condicional'
+          }" (click)="viewMode = 'condicional'">
+        Condicionais
+      </button>
+
+      <button type="button" class="flex-1 px-3 py-2 text-sm font-medium transition border rounded-e-md" [ngClass]="{
+            'bg-blue-600 text-white border-blue-700': viewMode === 'predefinido',
+            'bg-white text-gray-700 border-gray-300 hover:bg-gray-100': viewMode !== 'predefinido'
+          }" (click)="viewMode = 'predefinido'">
+        Predefinidos
+      </button>
+    </div>
+
+    <!-- VISÃO 1: CONDICIONAL -->
+    <ng-container *ngIf="viewMode === 'condicional'">
+
+      <div>
+        @if(columns.length==0){
+        <div class="col-span-3 p-3 text-sm text-white bg-red-600 rounded-lg shadow-sm">
+          ⚠️ Colunas não carregadas!
+        </div>
+        }
+
+        <div class="grid grid-cols-2 gap-3">
+
+          <div class="">
+
+            <comp-kass-selecty title="Selecione uma coluna da tabela" label="Coluna" [options]="columns"
+              [(selected)]="selectedColumnValue" (selectionChange)="selectColumnValue($event)">
+            </comp-kass-selecty>
+
+            @if(selectedOperatorValue?.description){
+            <small class="text-green-500">{{selectedOperatorValue?.description}}</small>
+            }
+            <comp-kass-selecty [title]="selectedOperatorValue?.description ?? 'Selecione um operador'" label="Operador"
+              [options]="operators" [(selected)]="selectedOperatorValue"
+              (selectionChange)="selectedOperatorValue = $event">
+            </comp-kass-selecty>
+
+            <!-- Se o operador selecionado NÃO for o especial (id !== 0 ou não definido) -->
+            <ng-container *ngIf="!selectedOperatorValue || selectedOperatorValue?.id !== 0; else specialOperator">
+              <ng-container [ngSwitch]="columnsSelectedType">
+
+                <comp-kass-selecty *ngSwitchCase="'list'" title="Valor a procurar na coluna selecionada" label="Valor"
+                  [options]="listColumnSelected" [(selected)]="selectedValue"
+                  (selectionChange)="selectedValue = $event">
+                </comp-kass-selecty>
+
+                <comp-kass-inputy *ngSwitchCase="'datetime'" title="Valor a procurar na coluna selecionada"
+                  label="Valor" type="date" [(value)]="selectedValue">
+                </comp-kass-inputy>
+
+                <comp-kass-inputy *ngSwitchCase="'date'" title="Valor a procurar na coluna selecionada" label="Valor"
+                  type="date" [(value)]="selectedValue">
+                </comp-kass-inputy>
+
+                <comp-kass-inputy *ngSwitchDefault title="Valor a procurar na coluna selecionada" label="Valor"
+                  type="text" [(value)]="selectedValue">
+                </comp-kass-inputy>
+
+              </ng-container>
+            </ng-container>
+
+            <!-- Template alternativo para operadores especiais -->
+            <ng-template #specialOperator>
+              <div class="flex flex-col gap-1">
+                <small *ngIf="selectedValue?.description" class="font-medium text-green-500">
+                  {{ selectedValue.description }}
+                </small>
+
+                <comp-kass-selecty title="Valor especial para operador selecionado" label="Valor"
+                  [options]="specialValues" [(selected)]="selectedValue" (selectionChange)="selectedValue = $event">
+                </comp-kass-selecty>
+              </div>
+            </ng-template>
+
+
+            <!-- Adicionar condição -->
+            @if(selectedColumnValue && selectedOperatorValue && selectedValue){
+            <div class="my-2">
+              <button type="button" [disabled]="!selectedColumnValue || !selectedOperatorValue || !selectedValue"
+                (click)="addCondition()"
+                class="flex items-center justify-center w-full gap-2 px-4 py-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg shadow hover:bg-green-700 disabled:opacity-50">
+                <mat-icon fontIcon="add" class="text-base"></mat-icon>
+                Adicionar condição
+              </button>
+            </div>
+            }
+
+          </div>
+          <div class="pl-3 border-l border-gray-300">
+
+            <!-- Condições -->
+            <div class="flex flex-row items-center justify-between w-full ">
+              <div class="my-1 text-sm opacity-80">Condições inseridas</div>
+              <button [disabled]="internalConditions.length===0 || true"
+                class="p-1 px-2 my-1 text-white bg-green-600 rounded-md disabled:opacity-30 textx-sm hover:bg-green-800"
+                title="Salvar condições como filtro predefinido (em desenvolvimento)">+ salvar</button>
+            </div>
+
+            @if(internalConditions.length==0){
+            <div class="font-bold text-center">Nenhuma condição inserida</div>
+            }
+
+            <div class="grid max-h-[calc(100vh-480px)] grid-cols-1 gap-2 overflow-y-auto">
+              <div *ngFor="let cond of internalConditions; trackBy: trackByCondition" (click)="removeCondition(cond)"
+                [title]="cond.label + ' - ' + (cond.operator | uppercase) + ' - ' + cond.value"
+                class="flex items-center justify-between px-3 py-1 text-xs text-blue-700 transition border border-blue-200 rounded-lg cursor-pointer bg-blue-50 hover:bg-red-500 hover:text-white">
+                <div class="flex justify-between w-full">
+                  <span class="font-medium">{{ cond.label }}</span>
+                  <span class="mx-1 font-bold">{{ cond.operator | uppercase }}</span>
+                  <span>{{ cond.value }}</span>
+                </div>
+                <mat-icon fontIcon="close" class="text-base"></mat-icon>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </ng-container>
+
+    <!-- VISÃO 2: PREDEFINIDOS -->
+    <ng-container *ngIf="viewMode === 'predefinido'">
+
+      <div class="w-full my-2 text-xs text-right opacity-90">Os filtros predefinidos sobrepoe os condicionais</div>
+
+      <div class="">
+        <!-- Campo de busca -->
+        <input type="search" [(ngModel)]="filterSearch" placeholder="Buscar filtro predefinido..."
+          class="w-full px-3 py-2 mb-3 text-sm border rounded-lg focus:ring focus:ring-blue-200" />
+
+        <!-- Lista de filtros -->
+        <div class="grid grid-cols-2 gap-2 max-h-[calc(100vh-270px)] overflow-y-auto">
+          <div *ngFor="let filtro of filteredPredefinedFilters()" (click)="selectPredefinedFilter(filtro)"
+            class="p-3 text-sm transition border rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-400">
+            <div class="font-semibold text-gray-700">{{ filtro.title }}</div>
+            <div class="text-xs text-gray-500">{{ filtro.description }}</div>
+          </div>
+
+          <div *ngIf="filteredPredefinedFilters().length === 0" class="col-span-2 text-lg text-center text-gray-700">
+            Nenhum filtro encontrado. <br><small>Crie na aba condicionais.</small>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+
+    <!-- BOTÕES FINAIS -->
+    <div class="absolute left-0 grid w-full grid-cols-3 px-4 bottom-3">
+      <button (click)="emitFilterConditions()" [disabled]="internalConditions.length==0"
+        class="w-full col-span-2 px-4 py-2 font-semibold text-white transition bg-blue-800 shadow rounded-s-lg hover:bg-blue-700 disabled:opacity-40">
+        Filtrar
+      </button>
+
+      <button type="button" (click)="closePanel()"
+        class="w-full px-4 py-2 font-semibold text-white transition shadow rounded-e-lg bg-secondary-600 hover:bg-secondary-700 disabled:opacity-40">
+        Cancelar
+      </button>
+    </div>
+
+  </div>
+
+</panel>

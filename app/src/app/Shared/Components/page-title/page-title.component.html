@@ -1,0 +1,16 @@
+<div class="flex items-center justify-between mb-4">
+  <!-- Botão voltar -->
+  <button *ngIf="showBackButton" (click)="goBack()" class="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+    <mat-icon>arrow_back</mat-icon>
+    <span class="ml-1">Voltar</span>
+  </button>
+
+  <!-- Título e subtítulo -->
+  <div class="flex-1 text-center">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ title }}</h1>
+    <p *ngIf="subtitle" class="text-sm text-gray-500 dark:text-gray-400">{{ subtitle }}</p>
+  </div>
+
+  <!-- Placeholder para manter alinhamento -->
+  <div class="w-20"></div>
+</div>

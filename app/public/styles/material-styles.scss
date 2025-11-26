@@ -1,0 +1,130 @@
+// Resetar inputs
+.mat-mdc-autocomplete-panel,
+.mat-mdc-form-field,
+.mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled,
+.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  background-color: transparent;
+}
+
+// Parte abaixo dos inputs do material para exibir os erros
+.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  display: none;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled {
+  padding: 0 5px;
+  border: none;
+  border-radius: 5px;
+  max-height: 58px;
+  .input{
+    border: none;
+  }
+}
+
+// Removendo a linha de ripple do mdc-text-field
+.mdc-line-ripple {
+  display: none !important;
+}
+
+// .light .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled input{
+//   background: none;
+// }
+
+// .mat-mdc-form-field {
+//   background-color: transparent !important;
+// }
+
+// .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled {
+//   background-color: transparent;
+//   // padding: 0;
+//   // border: none;
+// }
+
+// .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+//   background: transparent !important;
+// }
+
+// .mat-mdc-select-panel {
+//   background: white;
+// }
+
+// .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled {
+//   background-color: transparent;
+// padding: 0 5px;
+// border: 1px solid #bbb;
+// border-radius: 5px;
+// max-height: 58px;
+
+// &:hover {
+//   label,
+//   .mat-icon {
+//     color: #1a202c;
+//   }
+// }
+
+// label,
+// .mat-icon {
+//   color: #6b7280;
+// }
+
+// input {
+//   color: #555;
+//   background: white;
+//   border: none;
+// }
+// }
+// }
+
+// .dark {
+//   .mat-mdc-option {
+//     &:hover {
+//       .mdc-list-item__primary-text {
+//         color: #fff;
+//       }
+//     }
+//   }
+
+//   .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled {
+//     background-color: transparent;
+//     padding: 0 5px;
+//     border: 1px solid #555;
+//     border-radius: 5px;
+
+//     label,
+//     .mat-icon {
+//       color: #eee;
+//     }
+
+//     input {
+//       color: #fff;
+//       background: transparent;
+//       border: none;
+//     }
+//   }
+// }
+
+
+
+// - Area dos options do autocomplete:
+//  Precisei adicioanr aqui, pois a area dentro do componente panel,
+//  estava sendo renderizado abaixo dele
+// .cdk-overlay-container {
+//   z-index: 10000;
+// }
+
+// Trava do header da tabela ao faer scroll
+// .mat-mdc-table thead{
+//   position: sticky;
+//   top: 0;
+//   z-index: 5;
+//   background: white; /* ou a cor do seu header */
+// }
+
+// .mat-datepicker-popup{
+//   background-color: white;
+//   border: 1px solid #ddd
+// }
+
+// .light .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled input{
+//   background: none;
+// }

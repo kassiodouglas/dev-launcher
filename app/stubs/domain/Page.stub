@@ -1,0 +1,11 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'page-{{ kebab }}',
+  imports:[CommonModule],
+  templateUrl: './{{ kebab }}.page.html',
+})
+export class {{ name }}Page {
+  constructor() {}
+}

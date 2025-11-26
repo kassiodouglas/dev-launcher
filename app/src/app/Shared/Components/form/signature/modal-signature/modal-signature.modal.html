@@ -1,0 +1,31 @@
+<div class="p-5">
+
+  <!-- HEADER -->
+  <h2 mat-dialog-title class="mb-2 text-xl font-semibold">
+    Assinatura
+  </h2>
+
+  <!-- CONTENT -->
+  <div mat-dialog-content class="text-gray-700 dark:text-gray-300">
+    <canvas
+      #canvas
+      class="w-full h-[300px] bg-white border rounded-xl touch-none"
+      (mousedown)="startDraw($event)"
+      (mousemove)="draw($event)"
+      (mouseup)="stopDraw()"
+      (mouseleave)="stopDraw()"
+      (touchstart)="startDraw($event)"
+      (touchmove)="draw($event)"
+      (touchend)="stopDraw()"
+    ></canvas>
+  </div>
+
+  <!-- ACTIONS -->
+  <div  class="flex justify-end mt-2 space-x-3">
+    <comp-button variant="soft-secondary" (click)="clear()">Limpar</comp-button>
+    <comp-button variant="secondary" (click)="onCancel()">Cancelar</comp-button>
+    <comp-button variant="success" (click)="save()">OK</comp-button>
+  </div>
+
+</div>
+

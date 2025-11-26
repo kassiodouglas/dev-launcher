@@ -1,0 +1,28 @@
+
+@use 'fonts.scss';
+@use 'material-icons';
+@use 'material-styles';
+@use 'theme';
+@use 'scrollbar';
+@use 'animate.css';
+@use 'panel';
+@use 'code';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dark body{
+  color: #fff;
+}
+
+body{
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  overflow-x: hidden;
+  line-height: 1.5 !important;
+  font-size: 14px;
+}
+
+

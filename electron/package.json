@@ -1,0 +1,39 @@
+{
+  "name": "launcher",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "app": "cd ../app && nvm use 20 && npm run build:prod && rmdir /S /Q ..\\electron\\resources\\app 2>nul & mkdir ..\\electron\\resources\\app & xcopy /E /I /Y dist\\production\\browser ..\\electron\\resources\\app\\",
+    "start": "electron .",
+    "dist": "electron-builder",
+    "dev": "npm run app && npm run start",
+    "build": "npm run app && npm run dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "electron": "^39.2.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.launcher",
+    "productName": "Launcher",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "resources/**/*",
+      "index.js",
+      "renderer.js"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/logo.png"
+    }
+  },
+  "dependencies": {
+    "electron-store": "^6.0.1"
+  }
+}

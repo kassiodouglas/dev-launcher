@@ -1,0 +1,21 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from "@angular/material/icon";
+
+@Component({
+  selector: 'panel-{{ kebab }}',
+  imports: [
+    CommonModule,
+    MatIconModule,
+],
+  templateUrl: './{{ kebab }}.panel.html',
+})
+export class {{ name }}Panel {
+
+  constructor(private ref: MatDialogRef<{{ name }}Panel>) {}
+  close() {
+    this.ref.close('fechado');
+  }
+
+}

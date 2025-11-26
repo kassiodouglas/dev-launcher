@@ -1,0 +1,58 @@
+<mat-form-field appearance="fill" [class.opacity-40]="disabled" [class.cursor-not-allowed]="disabled" class="!w-full !min-h-[57px] placeholder:opacity-10 bg-white border-zinc-200 dark:bg-zinc-900 rounded-md  border dark:border-zinc-800  focus:border-blue-600">
+  <mat-label>{{ label }}</mat-label>
+
+  <input
+    #inputRef
+    matInput
+    [placeholder]="(placeholder ?? label)"
+    [matAutocomplete]="auto"
+    [value]="multiple ? getMultipleLabel() : selected?.label"
+    (input)="onInputChange(inputRef.value)"
+    (blur)="onTouchedEvent()"
+    [disabled]="disabled"
+    [class.opacity-40]="disabled"
+    [class.cursor-not-allowed]="disabled"
+  />
+
+  <!-- botão limpar -->
+  <button
+    type="button"
+    *ngIf="selected && !multiple"
+    matSuffix
+    mat-icon-button
+    (click)="clearSelection(inputRef)"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <!-- ícone dropdown -->
+  <mat-icon
+    matSuffix
+    class="transition-transform duration-200 cursor-pointer"
+    [style.transform]="opened ? 'rotate(180deg)' : 'rotate(0deg)'"
+    (click)="toggleDropdown(inputRef)"
+  >
+    expand_more
+  </mat-icon>
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayFn.bind(this)"
+    (opened)="opened = true"
+    (closed)="opened = false"
+    (optionSelected)="onOptionSelect($event.option.value)"
+  >
+    <mat-option
+      *ngFor="let option of filteredOptions"
+      [value]="option"
+      [ngClass]="{ 'bg-blue-500 text-white': isSelected(option) }"
+      class="transition-all hover:bg-blue-300"
+    >
+      <mat-icon *ngIf="isSelected(option)" fontIcon="check" class="mr-2"></mat-icon>
+      {{ option.label }}
+    </mat-option>
+  </mat-autocomplete>
+
+</mat-form-field>
+
+

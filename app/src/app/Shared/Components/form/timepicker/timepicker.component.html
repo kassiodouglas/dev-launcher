@@ -1,0 +1,19 @@
+<mat-form-field appearance="fill" [class.opacity-40]="disabled" [class.cursor-not-allowed]="disabled" class="!w-full !min-h-[57px] placeholder:opacity-10 dark:hover:bg-zinc-800 bg-white border-zinc-200 dark:bg-zinc-900 rounded-md border dark:border-zinc-800  focus:border-blue-600">
+  <mat-label>{{ label }}</mat-label>
+
+  <input #inputRef matInput [placeholder]="placeholder" [matAutocomplete]="auto" [value]="inputText"
+    (input)="onInput($event.target.value)" (keydown)="handleKeyDown($event)" (blur)="onBlur()" [disabled]="disabled" />
+
+  <button type="button" matSuffix mat-icon-button (click)="openPanel(inputRef)" [disabled]="disabled"
+    aria-label="Abrir lista de horários">
+    <mat-icon>schedule</mat-icon>
+  </button>
+
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event.option.value)"
+    [displayWith]="displayFn">
+
+    <mat-option *ngFor="let opt of filteredOptions" [value]="opt">
+      {{ opt }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

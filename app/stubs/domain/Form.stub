@@ -1,0 +1,58 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormClass } from '@src/app/Shared/Components/form/form.class';
+import { ButtonComponent } from "@src/app/Shared/Components/buttons/button.component";
+import { FormInputyComponent } from '@src/app/Shared/Components/form/inputy/inputy.component';
+import { FormValidationMessageComponent } from "@src/app/Shared/Components/form/validation/form-validation-message.component";
+import { FormMessageComponent } from "@src/app/Shared/Components/form/validation/form-message.component";
+
+@Component({
+  selector: 'form-{{ name }}',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ButtonComponent,
+    FormInputyComponent,
+    FormValidationMessageComponent,
+    FormMessageComponent
+  ],
+  template: `
+    <form [formGroup]="form" (ngSubmit)="submit()" class="grid gap-1 p-1">
+
+      <!-- Nome -->
+      <div class="relative">
+        <comp-inputy label="Nome" formControlName="name" />
+        <form-validation-message [control]="form.get('name')"></form-validation-message>
+      </div>
+
+      <!-- Botão Enviar -->
+      <div class="flex flex-row items-center space-x-3">
+
+        <comp-button type="submit" variant="soft-success" [disabled]="form.invalid || loading">
+          {{ loading ? "Enviando..." : "Enviar" }}
+        </comp-button>
+
+        <form-message [form]="form"/>
+      </div>
+    </form>
+  `,
+})
+export class {{ name }}Form extends FormClass {
+
+  constructor(override fb: FormBuilder) {
+    super(fb);
+
+    this.createForm({
+      name: ['', [Validators.required]],
+    });
+
+  }
+
+  override onSubmit() {
+    this.startLoading();
+    console.log('✅ Enviando:', this.values());
+    setTimeout(() => this.stopLoading(), 1000);
+  }
+}
